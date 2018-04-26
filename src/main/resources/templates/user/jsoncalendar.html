@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:replace="fragments/head"></th:block>
+	<th:block th:replace="fragments/calendarHead"></th:block>
+</head>
+<body>
+<div class="container-fluid" id="content">
+	<th:block th:replace="fragments/navbar"></th:block>
+</div>
+<div id="renderCalendar">
+	<div id="header">
+		<h1>Calendar</h1>
+	</div>
+
+	<div id='script-warning'>
+	</div>
+
+	<div id='loading'>loading...</div>
+
+	<div id='calendar'></div>
+
+	<div id="dialog-form" title="Create new Event">
+	  <form id="event-form">
+	    <fieldset>
+	      <label for="newtitle">title</label>
+	      <input type="text" name="newtitle" id="newtitle" value="New Event" class="text ui-widget-content ui-corner-all"/>
+
+	      <label for="description">description:</label>
+	      <input type="text" name="description" id="description" value="" class="text ui-widget-content ui-corner-all "/>
+
+	  	  <br></br>
+	      <label for="startdateandtime">starts:</label>
+	      <input type="datetime-local" id="startdateandtime"/>
+	      <br></br>
+	      <label for="enddateandtime">ends:</label>
+	      <input type="datetime-local" id="enddateandtime"/>
+	      <input type="hidden" name="uid" id="uid"/>
+
+	      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px"/>
+	    </fieldset>
+	  </form>
+	</div>
+
+	<div id="edit-dialog-form" title="Modify an Event">
+	  <form id="edit-event-form">
+	    <fieldset>
+	      <label for="modtitle">title</label>
+	      <input type="text" name="modtitle" id="modtitle" value="New Event" class="text ui-widget-content ui-corner-all"/>
+
+	      <label for="description">description:</label>
+	      <input type="text" name="moddescription" id="moddescription" value="" class="text ui-widget-content ui-corner-all "/>
+	      <label for="modstartdateandtime">starts:</label>
+	      <input type="datetime-local" id="modstartdateandtime"/>
+	      <br></br>
+	      <label for="modenddateandtime">ends:</label>
+	      <input type="datetime-local" id="modenddateandtime"/>
+	      <input type="hidden" name="moduid" id="moduid"/>
+	      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px"/>
+	    </fieldset>
+	  </form>
+	</div>
+</div>
+</body>
+</html>
