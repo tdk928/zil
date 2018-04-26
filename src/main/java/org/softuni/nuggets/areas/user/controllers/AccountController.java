@@ -1,10 +1,9 @@
 package org.softuni.nuggets.areas.user.controllers;
 
 
-import org.softuni.nuggets.areas.admin.repositories.EventRepository;
+
 import org.softuni.nuggets.areas.user.services.EmployeeService;
 import org.softuni.nuggets.controllers.BaseController;
-import org.softuni.nuggets.entities.Event;
 import org.softuni.nuggets.models.binding.UserEditEmployeeBindingModel;
 import org.softuni.nuggets.models.service.EmployeeServiceModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 
+import static org.softuni.nuggets.areas.contants.Constans.LOGIN;
+import static org.softuni.nuggets.areas.contants.Constans.LOGOUT;
+
 
 @Controller
 public class AccountController extends BaseController {
@@ -29,7 +31,7 @@ public class AccountController extends BaseController {
         this.userService = userService;
     }
 
-    @GetMapping("/login")
+    @GetMapping(LOGIN)
     public ModelAndView login(@RequestParam(required = false, name = "error") String error) {
         if (error != null) {
             this.view("/user/login", "error", error);
@@ -38,7 +40,7 @@ public class AccountController extends BaseController {
         return this.view("/user/login");
     }
 
-    @PostMapping("/logout")
+    @PostMapping(LOGOUT)
     public ModelAndView logout(@RequestParam(required = false, name = "logout") String logout, RedirectAttributes redirectAttributes) {
         if (logout != null) {
             redirectAttributes.addFlashAttribute("logout", logout);

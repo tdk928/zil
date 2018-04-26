@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static org.softuni.nuggets.areas.contants.Constans.*;
+
 @RestController
 public class EventController extends BaseController {
 
@@ -26,46 +28,45 @@ public class EventController extends BaseController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/addevent", method = RequestMethod.POST)
-    public void addEvent(@RequestParam("json") String json,Principal principal) {
+    @RequestMapping(value = ADD_EVENT, method = RequestMethod.POST)
+    public void addEvent(@RequestParam(JSON) String json,Principal principal) {
         EmployeeServiceModel employer = this.userService.getByUsernameAndDeletedOnIsNotNull(principal.getName());
         this.eventService.addEvent(json,employer);
     }
 
-    @RequestMapping(value = "/removeevent", method = RequestMethod.POST)
-    public void removeEvent(@RequestParam("json") String json,Principal principal) {
+    @RequestMapping(value = REMOVE_EVENT, method = RequestMethod.POST)
+    public void removeEvent(@RequestParam(JSON) String json,Principal principal) {
         EmployeeServiceModel employer = this.userService.getByUsernameAndDeletedOnIsNotNull(principal.getName());
         this.eventService.deleteEvent(json,employer);
     }
 
-    @RequestMapping(value = "/updateevent", method = RequestMethod.PATCH)
-    public void updateEvent(@RequestParam("json") String json,Principal principal) {
+    @RequestMapping(value = UPDATE_EVENT, method = RequestMethod.PATCH)
+    public void updateEvent(@RequestParam(JSON) String json,Principal principal) {
         EmployeeServiceModel employer = this.userService.getByUsernameAndDeletedOnIsNotNull(principal.getName());
         this.eventService.updateEvent(json,employer);
     }
 
 
-    @RequestMapping(value="/events", method= RequestMethod.GET)
-    public List<Event> getEventsInRange(Principal principal,@RequestParam(value = "start", required = true) String start,
-                                        @RequestParam(value = "end", required = true) String end) {
+    @RequestMapping(value=ALL_EVENTS, method= RequestMethod.GET)
+    public List<Event> getEventsInRange(Principal principal,@RequestParam(value = START, required = true) String start,
+                                        @RequestParam(value = END, required = true) String end) {
         Date startDate = null;
         Date endDate = null;
-        SimpleDateFormat inputDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat inputDateFormat=new SimpleDateFormat(DATE_PATTERN);
 
         try {
             startDate = inputDateFormat.parse(start);
         } catch (ParseException e) {
-            throw new BadTimeFormatException("bad start date: " + start);
+            throw new BadTimeFormatException(BAD_START_DATE + start);
         }
 
         try {
             endDate = inputDateFormat.parse(end);
         } catch (ParseException e) {
-            throw new BadTimeFormatException("bad end date: " + end);
+            throw new BadTimeFormatException(BAD_END_DATE + end);
         }
 
         EmployeeServiceModel employer = this.userService.getByUsernameAndDeletedOnIsNotNull(principal.getName());
-//        return eventRepository.findByDatesBetween(startDate, endDate);
         return employer.getEvents();
     }
 }

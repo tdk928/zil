@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import static org.softuni.nuggets.areas.contants.Constans.ALL_EMPLOYERS;
+
 @Controller
 public class EmployerController extends BaseController{
     private TestService testService;
@@ -17,7 +19,7 @@ public class EmployerController extends BaseController{
         this.testService = testService;
     }
 
-    @GetMapping("/allEmployers")
+    @GetMapping(ALL_EMPLOYERS)
     public ModelAndView allEmployers(@PageableDefault(size = 10) org.springframework.data.domain.Pageable pageable) {
         Page<Employee> results = this.testService.findAllByPage(pageable);
         int longer = results.getTotalPages();
@@ -26,9 +28,5 @@ public class EmployerController extends BaseController{
         mav.addObject("longer",longer);
         mav.addObject("allEmployers",results);
         return mav;
-//        this.view("allEmployers","longer",longer);
-//        this.view("allEmployers").addObject("longer",longer);
-//        return this.view("allEmployers", "allEmployers",
-//                results);
     }
 }

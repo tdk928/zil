@@ -1,11 +1,8 @@
 package org.softuni.nuggets.areas.admin.services;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.modelmapper.ModelMapper;
 import org.softuni.nuggets.areas.admin.repositories.EventRepository;
-import org.softuni.nuggets.entities.Employee;
 import org.softuni.nuggets.entities.Event;
 import org.softuni.nuggets.models.binding.EventAddBindingModel;
 import org.softuni.nuggets.models.binding.EventRemoveBindingModel;
@@ -34,7 +31,6 @@ public class EventServiceImpl implements EventService{
         this.eventRepository.save(currentEvent);
 
         employer.addEvent(currentEvent);
-//        Employee currentEmployee = this.modelMapper.map(employer, Employee.class);
         this.adminService.save(employer);
         return true;
     }

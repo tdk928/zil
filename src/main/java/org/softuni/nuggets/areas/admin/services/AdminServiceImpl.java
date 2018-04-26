@@ -20,11 +20,11 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 
+import static org.softuni.nuggets.areas.contants.Constans.ROLE_ADMIN_ID;
+
 @Service
 @Transactional
 public class AdminServiceImpl implements AdminService{
-    private static final long ROLE_USER_ID = 2L;
-    private static final long ROLE_ADMIN_ID = 1L;
     private final AdminRepository adminRepository;
     private final BCryptPasswordEncoder encoder;
     private final RoleService roleService;
@@ -80,13 +80,8 @@ public class AdminServiceImpl implements AdminService{
         employee.setPassword(this.encoder.encode(bindingModel.getPassword()));
 
         HashSet<Role> role = new HashSet<>();
-        //hardcode for admin user
-        if(bindingModel.getUsername().equals("1")) {
-            role.add(this.roleService.findById(ROLE_USER_ID));
-        } else {
-            role.add(this.roleService.findById(ROLE_ADMIN_ID));
-        }
 
+        role.add(this.roleService.findById(ROLE_ADMIN_ID));
         employee.setAuthorities(role);
 
         this.configureUserDetailsBug(employee);

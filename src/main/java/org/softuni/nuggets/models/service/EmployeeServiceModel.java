@@ -1,10 +1,12 @@
 package org.softuni.nuggets.models.service;
 
 import org.softuni.nuggets.entities.Event;
+import org.softuni.nuggets.entities.Role;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EmployeeServiceModel {
@@ -31,6 +33,8 @@ public class EmployeeServiceModel {
     private List<Event> events;
 
     private LocalDate deletedOn;
+
+    private Set<Role> authorities;
 
     public EmployeeServiceModel() {
         this.events = new ArrayList<>();
@@ -131,6 +135,14 @@ public class EmployeeServiceModel {
 
     public void setDeletedOn(LocalDate deletedOn) {
         this.deletedOn = deletedOn;
+    }
+
+    public Set<Role> getAuthorities() {
+        return this.authorities;
+    }
+
+    public void setAuthorities(Set<Role> authorities) {
+        this.authorities = authorities;
     }
 
     public void addEvent(Event event) {
