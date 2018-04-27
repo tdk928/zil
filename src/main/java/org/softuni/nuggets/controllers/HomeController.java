@@ -6,16 +6,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import static org.softuni.nuggets.areas.contants.Constans.*;
+
 @Controller
 public class HomeController extends BaseController{
-    @GetMapping("/")
+    @GetMapping(INDEX)
     public ModelAndView index() {
-       return this.view("index");
+       return this.view(INDEX_VIEW);
     }
 
-    @GetMapping("/home")
+    @GetMapping(HOME)
     public ModelAndView home() {
-       return this.view("home");
+       return this.view(HOME_VIEW);
     }
 
     @GetMapping("/asd")

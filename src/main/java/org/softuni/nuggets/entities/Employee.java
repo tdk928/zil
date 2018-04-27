@@ -1,6 +1,5 @@
 package org.softuni.nuggets.entities;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -13,25 +12,39 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import static org.softuni.nuggets.areas.contants.Constans.EMPLOYERS_TABLE;
+import static org.softuni.nuggets.areas.contants.Constans.UUID;
+import static org.softuni.nuggets.areas.contants.Constans.UUID_GENERATOR;
+
 @Entity
-@Table(name = "employers")
+@Table(name = EMPLOYERS_TABLE)
 public class Employee implements UserDetails {
+    private static final String FIRST_NAME = "first_name";
+    private static final String LAST_NAME = "last_name";
+    private static final String ID = "id";
+    private static final String EMPLOYERS_AUTHORITIES = "employers_authorities";
+    private static final String EMPLOYEE_ID = "employee_id";
+    private static final String ROLE_ID = "role_id";
+    private static final String EMPLOYERS_EVENTS = "employers_events";
+    private static final String EMPLOYEE_ID1 = "employee_id";
+    private static final String EVENT_ID = "event_id";
+    private static final String DELETED_ON = "deleted_on";
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(generator = UUID)
     @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
+            name = UUID,
+            strategy = UUID_GENERATOR
     )
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = ID, updatable = false, nullable = false)
     private String id;
 
     @Column(unique = true)
     private String username;
 
-    @Column(name = "first_name")
+    @Column(name = FIRST_NAME)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = LAST_NAME)
     private String lastName;
 
     private double salary;
@@ -48,18 +61,18 @@ public class Employee implements UserDetails {
     private boolean isEnabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "employers_authorities",
-    joinColumns = @JoinColumn(name = "employee_id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = EMPLOYERS_AUTHORITIES,
+    joinColumns = @JoinColumn(name = EMPLOYEE_ID),
+    inverseJoinColumns = @JoinColumn(name = ROLE_ID))
     private Set<Role> authorities;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "employers_events",
-            joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id"))
+    @JoinTable(name = EMPLOYERS_EVENTS,
+            joinColumns = @JoinColumn(name = EMPLOYEE_ID1),
+            inverseJoinColumns = @JoinColumn(name = EVENT_ID))
     private List<Event> events;
 
-    @Column(name = "deleted_on")
+    @Column(name = DELETED_ON)
     private LocalDate deletedOn;
 
     public Employee() {

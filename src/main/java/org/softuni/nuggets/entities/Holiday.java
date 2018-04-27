@@ -2,10 +2,12 @@ package org.softuni.nuggets.entities;
 
 import javax.persistence.*;
 
+import static org.softuni.nuggets.areas.contants.Constans.HOLIDAYS_TABLE;
+
 @Entity
-@Table(name = "holiday_days")
+@Table(name = HOLIDAYS_TABLE)
 public class Holiday {
-    private static final int MAX_HOLIDAY_Day_IN_YEAR = 20;
+    private static final int MAX_HOLIDAY_DAY_IN_YEAR = 20;
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -17,7 +19,7 @@ public class Holiday {
     private int leaveDay;
 
     public Holiday() {
-        this.leaveDay = MAX_HOLIDAY_Day_IN_YEAR;
+        this.leaveDay = MAX_HOLIDAY_DAY_IN_YEAR;
     }
 
     public long getId() {

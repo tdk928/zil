@@ -15,12 +15,14 @@
         <thead>
         <tr class="row">
             <th class="col-md-2" scope="col">#</th>
-            <th class="col-md-5" scope="col">EGN</th>
-            <th class="col-md-5" scope="col">First Name</th>
+            <th class="col-md-3" scope="col">EGN</th>
+            <th class="col-md-3" scope="col">First Name</th>
+            <th class="col-md-2" scope="col">Edit</th>
+            <th class="col-md-2" scope="col">Delete</th>
         </tr>
         </thead>
         <tbody>
-        <th:block th:each="company, iter : ${allEmployers}">
+        <th:block th:each="emp, iter : ${allEmployers}">
             <tr class="row">
                 <th class="col-md-2" scope="row" th:text="${
                 (allEmployers.getPageable().getPageNumber() + 2 <= 1
@@ -28,12 +30,15 @@
                 : allEmployers.getPageable().getPageNumber() + 1) * 10 + (iter.index + 1)-10
                 }">
                 </th>
-                <td class="col-md-5" th:text="${company.getUsername().length() > 35
-                ? company.getUsername().substring(0, 35) + '...'
-                : company.getUsername()}"></td>
-                <td class="col-md-5" th:text="${company.getFirstName().length() > 35
-                ? company.getFirstName().substring(0, 35) + '...'
-                : company.getFirstName()}"></td>
+                <td class="col-md-3" th:text="${emp.getUsername().length() > 35
+                ? emp.getUsername().substring(0, 35) + '...'
+                : emp.getUsername()}"></td>
+                <td class="col-md-3" th:text="${emp.getFirstName().length() > 35
+                ? emp.getFirstName().substring(0, 35) + '...'
+                : emp.getFirstName()}"></td>
+
+                <td class="col-md-2"><a class="btn btn-secondary" th:href="@{/admin/edit/{egn}(egn=${emp.getUsername()})}">Edit</a></td>
+                <td class="col-md-2"><a class="btn btn-danger" th:href="@{/admin/delete/{egn}(egn=${emp.getUsername()})}">Delete</a></td>
 
             </tr>
         </th:block>
@@ -44,7 +49,7 @@
         <!--<div th:text="${someVariable}"></div>-->
         <ul class="pagination d-flex justify-content-center">
             <!--Previous Button-->
-            <li class="page-item"><a class="page-link" th:if="${allEmployers.hasPrevious()}" th:href="@{/allEmployers(page=${allEmployers.previousPageable().getPageNumber()})}">Previous</a></li>
+            <li class="page-item"><a class="page-link" th:if="${allEmployers.hasPrevious()}" th:href="@{/admin/allEmployers(page=${allEmployers.previousPageable().getPageNumber()})}">Previous</a></li>
 
             <!--Dot Button-->
             <li class="page-item"><a class="page-link" th:if="${allEmployers.getPageable().getPageNumber() + 1 > 5}" th:disabled="true">...</a></li>
@@ -58,14 +63,14 @@
             ((allEmployers.getPageable().getPageNumber()
             / 5) * 5) + longer)
             }">
-                <li class="page-item" th:classappend="${number == allEmployers.getPageable().getPageNumber() + 1 ? ' active' : ''}"><a class="page-link" th:text="${number}" th:href="@{/allEmployers(page=${number}-1)}"></a></li>
+                <li class="page-item" th:classappend="${number == allEmployers.getPageable().getPageNumber() + 1 ? ' active' : ''}"><a class="page-link" th:text="${number}" th:href="@{/admin/allEmployers(page=${number}-1)}"></a></li>
             </th:block>
 
             <!--Dot Button-->
             <li class="page-item"><a class="page-link" th:if="${allEmployers.getPageable().getPageNumber()  < allEmployers.getTotalPages() - 4}" th:disabled="true">...</a></li>
 
             <!--Next Button-->
-            <li class="page-item"><a class="page-link" th:if="${allEmployers.hasNext()}" th:href="@{/allEmployers(page=${allEmployers.nextPageable().getPageNumber()})}">Next</a></li>
+            <li class="page-item"><a class="page-link" th:if="${allEmployers.hasNext()}" th:href="@{/admin/allEmployers(page=${allEmployers.nextPageable().getPageNumber()})}">Next</a></li>
         </ul>
     </nav>
 

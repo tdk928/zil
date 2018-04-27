@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.softuni.nuggets.areas.contants.Constans.LOGIN;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true)
@@ -41,16 +43,16 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/**").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").access("hasRole('USER') or hasRole('ADMIN')")
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/user/**").access("hasRole('USER') or hasRole('ADMIN')")
 //                .antMatchers("/user/**").hasRole("USER")
 //                .antMatchers("/user/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage(LOGIN)
                 .permitAll()
-                .loginProcessingUrl("/login")
+                .loginProcessingUrl(LOGIN)
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .and()

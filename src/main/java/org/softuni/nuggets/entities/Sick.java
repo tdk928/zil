@@ -2,8 +2,10 @@ package org.softuni.nuggets.entities;
 
 import javax.persistence.*;
 
+import static org.softuni.nuggets.areas.contants.Constans.SICK_TABLE;
+
 @Entity
-@Table(name = "sick_days")
+@Table(name = SICK_TABLE)
 public class Sick {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)

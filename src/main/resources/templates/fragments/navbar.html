@@ -28,6 +28,9 @@
                 <li sec:authorize="isAuthenticated()" class="nav-item disabled">
                     <a class="nav-link nav-link-white" href="/user/calendar" id="viewCalendar">Calendar</a>
                 </li>
+                <li class="nav-item disabled" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link nav-link-white" href="/admin/master" id="master">Master</a>
+                </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item disabled">
                     <form th:action="@{/logout}" th:method="POST">
                         <a class="nav-link nav-link-white" href="/logout" id="logoutBtn">Logout</a>

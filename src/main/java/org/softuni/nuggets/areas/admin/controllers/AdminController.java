@@ -2,7 +2,9 @@ package org.softuni.nuggets.areas.admin.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.softuni.nuggets.areas.admin.services.AdminService;
+import org.softuni.nuggets.areas.admin.services.NeededEmployersService;
 import org.softuni.nuggets.controllers.BaseController;
+import org.softuni.nuggets.entities.NeededEmployer;
 import org.softuni.nuggets.models.binding.AdminEditEmployeeBindingModel;
 import org.softuni.nuggets.models.binding.RegisterBindingModel;
 import org.softuni.nuggets.models.service.EmployeeServiceModel;
@@ -21,10 +23,11 @@ import static org.softuni.nuggets.areas.contants.Constans.*;
 @Controller
 @RequestMapping(value = ADMIN_ROUTE)
 public class AdminController extends BaseController {
+    private final NeededEmployersService neededEmployersService;
+    private final AdminService adminService;
 
-    private AdminService adminService;
-
-    public AdminController(AdminService adminService) {
+    public AdminController(NeededEmployersService neededEmployersService, AdminService adminService) {
+        this.neededEmployersService = neededEmployersService;
 
         this.adminService = adminService;
     }
@@ -39,15 +42,22 @@ public class AdminController extends BaseController {
     }
 
     @PostMapping(REGISTER_ROUTE)
-    public ModelAndView registerConfirm(@Valid @ModelAttribute RegisterBindingModel bindingModel, BindingResult bindingResult) {
+    public ModelAndView registerConfirm(@Valid @ModelAttribute RegisterBindingModel bindingModel, BindingResult bindingResult) throws Exception {
         if (bindingResult.hasErrors()) {
             return this.redirect(ADMIN_REGISTER);
         } else {
             if (bindingModel.getPassword().equals(bindingModel.getConfirmPassword())) {
+                NeededEmployer neededUtilEntity = this.neededEmployersService.getNeededUtilEntity();
+
+                if (!neededUtilEntity.increment()) {
+                    throw new Exception();
+                }
+
                 this.adminService.register(bindingModel);
+                this.neededEmployersService.save(neededUtilEntity);
             }
         }
-        return this.redirect(HOME);
+        return this.redirect(HOME_VIEW);
     }
 
     @GetMapping(EDIT_ROUTE)
@@ -60,7 +70,7 @@ public class AdminController extends BaseController {
             model.addAttribute(EMPLOYER_INPUT, bindingModel);
         }
 
-        return this.view(EDIT);
+        return this.view(EDIT_VIEW);
     }
 
     @PostMapping(EDIT_ROUTE)
@@ -70,10 +80,10 @@ public class AdminController extends BaseController {
             redirectAttributes.addFlashAttribute(EMPLOYER_INPUT_VALIDATION, bindingResult);
             redirectAttributes.addFlashAttribute(EMPLOYER_INPUT, editEmployeeBindingModel);
 
-            return this.redirect(HOME);
+            return this.redirect(HOME_VIEW);
         } else {
             this.adminService.editEmployer(username, editEmployeeBindingModel);
-            return this.redirect(ALL_EMPLOYERS_VIEW);
+            return this.redirect(HOME_VIEW);
         }
 
 
@@ -89,9 +99,15 @@ public class AdminController extends BaseController {
     }
 
     @PostMapping(DELETE_ROUTE)
-    public ModelAndView removeConfirm(@PathVariable String username) {
+    public ModelAndView removeConfirm(@PathVariable String username) throws Exception {
+
+        NeededEmployer neededUtilEntity = this.neededEmployersService.getNeededUtilEntity();
+        if (!neededUtilEntity.decrement()) {
+            throw new Exception();
+        }
         this.adminService.removeEmployer(username);
-        return this.redirect(ALL_EMPLOYERS_VIEW);
+        this.neededEmployersService.save(neededUtilEntity);
+        return this.redirect(HOME_VIEW);
     }
 
 }

@@ -17,8 +17,4 @@ public class ApplicationBeanConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public SpringCacheBasedUserCache userCache() throws Exception {
-//        return new SpringCacheBasedUserCache(new ConcurrentMapCache("user-cache"));
-//    }
 }

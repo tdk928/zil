@@ -49,6 +49,7 @@ public class EventServiceImpl implements EventService{
     public boolean updateEvent(String json, EmployeeServiceModel employer) {
         EventAddBindingModel event = new Gson().fromJson(json, EventAddBindingModel.class);
         Event currentEvent = this.modelMapper.map(event, Event.class);
+//        Date newDate = DateUtils.addHours(oldDate, 3);
         this.eventRepository.save(currentEvent);
         return true;
     }

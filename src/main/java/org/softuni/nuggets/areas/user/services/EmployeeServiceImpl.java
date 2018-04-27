@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import static org.softuni.nuggets.areas.contants.Constans.USERNAME_EXCEPTION;
+
 @Service
 @Transactional
 public class EmployeeServiceImpl implements EmployeeService {
@@ -40,7 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public UserDetails loadUserByUsername(String employee) throws UsernameNotFoundException {
         Employee result = this.employeeRepository.findFirstByUsernameAndDeletedOnIsNull(employee);
 
-        if(result == null) throw new UsernameNotFoundException("Username not found.");
+        if(result == null) throw new UsernameNotFoundException(USERNAME_EXCEPTION);
 
         return result;
     }
@@ -53,7 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = this.employeeRepository.findFirstByUsernameAndDeletedOnIsNull(egn);
 
         EmployeeServiceModel result = mapper.map(employee, EmployeeServiceModel.class);
-        result.setUsername(employee.getUsername()); // TODO fix this
+        result.setUsername(employee.getUsername());
         return result;
     }
 

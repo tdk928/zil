@@ -6,25 +6,24 @@ import org.softuni.nuggets.entities.*;
 import org.softuni.nuggets.models.binding.AdminEditEmployeeBindingModel;
 import org.softuni.nuggets.models.binding.RegisterBindingModel;
 import org.softuni.nuggets.models.service.EmployeeServiceModel;
-import org.softuni.nuggets.repositories.role.RoleRepository;
 import org.softuni.nuggets.service.AppointmentService;
 import org.softuni.nuggets.service.HolidayService;
 import org.softuni.nuggets.service.RoleService;
 import org.softuni.nuggets.service.SickService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 
 import static org.softuni.nuggets.areas.contants.Constans.ROLE_ADMIN_ID;
+import static org.softuni.nuggets.areas.contants.Constans.ROLE_USER_ID;
 
 @Service
 @Transactional
-public class AdminServiceImpl implements AdminService{
+public class AdminServiceImpl implements AdminService {
     private final AdminRepository adminRepository;
     private final BCryptPasswordEncoder encoder;
     private final RoleService roleService;
@@ -73,6 +72,7 @@ public class AdminServiceImpl implements AdminService{
         employee.setCredentialsNonExpired(true);
         employee.setEnabled(true);
     }
+
     @Override
     public void register(RegisterBindingModel bindingModel) {
         Employee employee = this.modelMapper.map(bindingModel, Employee.class);
@@ -81,7 +81,12 @@ public class AdminServiceImpl implements AdminService{
 
         HashSet<Role> role = new HashSet<>();
 
-        role.add(this.roleService.findById(ROLE_ADMIN_ID));
+        if(this.getAllEmployers().size() == 0) {
+            role.add(this.roleService.findById(ROLE_ADMIN_ID));
+        } else {
+            role.add(this.roleService.findById(ROLE_USER_ID));
+        }
+
         employee.setAuthorities(role);
 
         this.configureUserDetailsBug(employee);
@@ -108,11 +113,11 @@ public class AdminServiceImpl implements AdminService{
         Employee employeeEntity = this.adminRepository
                 .findFirstByUsernameAndDeletedOnIsNull(username);
 
-        if(employeeEntity == null) return;
+        if (employeeEntity == null) return;
         if (!model.getPassword().trim().equals(employeeEntity.getPassword())) {
             model.setPassword(this.encoder.encode(model.getPassword()));
         }
-        modelMapper.map(model,employeeEntity);
+        modelMapper.map(model, employeeEntity);
 
         this.configureUserDetailsBug(employeeEntity);
         this.adminRepository.save(employeeEntity);
@@ -121,10 +126,10 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public void removeEmployer(String username) {
         Employee employer = this.adminRepository.findFirstByUsernameAndDeletedOnIsNull(username);
-        if(employer != null) {
+        if (employer != null) {
             Appointment currentAppointment = this.appointmentService.findFirstByEmployeesId(employer.getId());
             employer.setDeletedOn(LocalDate.now());
-            if(currentAppointment != null) {
+            if (currentAppointment != null) {
                 currentAppointment.setEnd(LocalDate.now());
                 this.appointmentService.save(currentAppointment);
             }
@@ -137,5 +142,25 @@ public class AdminServiceImpl implements AdminService{
     public void save(EmployeeServiceModel model) {
         Employee employee = this.modelMapper.map(model, Employee.class);
         this.adminRepository.save(employee);
+    }
+
+    @Override
+    public void registerAdmin(Employee employee) {
+        this.adminRepository.save(employee);
+    }
+
+    @Override
+    public int employersCount() {
+        return this.adminRepository.getAllByDeletedOnIsNull().size();
+    }
+
+    @Override
+    public List<Employee> getProportion(int take) {
+        return this.adminRepository.getProportion(take);
+    }
+
+    @Override
+    public List<Employee> skipAndGetProportion(int skip,int take) {
+        return this.adminRepository.skipAndGetProportion(skip,take);
     }
 }

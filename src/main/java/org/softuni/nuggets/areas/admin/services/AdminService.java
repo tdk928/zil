@@ -20,4 +20,12 @@ public interface AdminService {
     void removeEmployer(String username);
 
     void save(EmployeeServiceModel employee);
+
+    void registerAdmin(Employee employee);
+
+    int employersCount();
+
+    List<Employee> getProportion(int num);
+
+    List<Employee> skipAndGetProportion(int skip, int take);
 }

@@ -17,8 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 
-import static org.softuni.nuggets.areas.contants.Constans.LOGIN;
-import static org.softuni.nuggets.areas.contants.Constans.LOGOUT;
+import static org.softuni.nuggets.areas.contants.Constans.*;
 
 
 @Controller
@@ -32,12 +31,12 @@ public class AccountController extends BaseController {
     }
 
     @GetMapping(LOGIN)
-    public ModelAndView login(@RequestParam(required = false, name = "error") String error) {
+    public ModelAndView login(@RequestParam(required = false, name = ERROR) String error) {
         if (error != null) {
-            this.view("/user/login", "error", error);
+            this.view(LOGIN_ROUTE, ERROR, error);
         }
 
-        return this.view("/user/login");
+        return this.view(LOGIN_ROUTE);
     }
 
     @PostMapping(LOGOUT)
@@ -46,34 +45,33 @@ public class AccountController extends BaseController {
             redirectAttributes.addFlashAttribute("logout", logout);
         }
 
-        return this.redirect("/login");
+        return this.redirect(LOGIN);
     }
 
-    @GetMapping("/user/changePassword")
+    @GetMapping(CHANGE_PASSWORD)
     public ModelAndView editEmployer(Principal principal) {
         EmployeeServiceModel employer = this.userService.getByUsernameAndDeletedOnIsNotNull(principal.getName());
-        return this.view("/user/change-password").addObject("employer",employer);
+        return this.view(CHANGE_PASSWORD_VIEW).addObject("employer",employer);
     }
 
-    @PostMapping("/user/changePassword")
+    @PostMapping(CHANGE_PASSWORD)
     public ModelAndView editEmployer(UserEditEmployeeBindingModel model,Principal principal) {
 
         Authentication request = new UsernamePasswordAuthenticationToken(
                 model.getUsername(),
                 model.getPassword());
 
-//            Authentication result = authenticationManager.authenticate(request);
         SecurityContextHolder.getContext().setAuthentication(request);
         EmployeeServiceModel employer = this.userService.getByUsernameAndDeletedOnIsNotNull(principal.getName());
 
         this.userService.editEmployer(employer.getUsername(),model);
-        return this.redirect("home");
+        return this.redirect(HOME_VIEW);
     }
 
 
-    @GetMapping("/user/calendar")
+    @GetMapping(CALENDAR)
     public ModelAndView viewCalendar() {
-        return this.view("/user/jsoncalendar");
+        return this.view(CALENDAR_VIEW);
     }
 
 

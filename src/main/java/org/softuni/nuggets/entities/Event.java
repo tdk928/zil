@@ -1,15 +1,16 @@
 package org.softuni.nuggets.entities;
 
-import org.softuni.nuggets.entities.Employee;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
+import static org.softuni.nuggets.areas.contants.Constans.EVENT_TABLE;
 
 @Entity
-@Table(name = "Event")
+@Table(name = EVENT_TABLE)
 public class Event {
+	private static final String START = "start";
+	private static final String END = "end";
 	@Id
 	@GeneratedValue(strategy= GenerationType.TABLE)
 	private Long id;
@@ -17,10 +18,10 @@ public class Event {
 	private String title;
 	private String description;
 
-	@Column(name="start")
+	@Column(name= START)
 	private Date start;
 
-	@Column(name="end")
+	@Column(name= END)
 	private Date end;
 //
 //	@ManyToMany
