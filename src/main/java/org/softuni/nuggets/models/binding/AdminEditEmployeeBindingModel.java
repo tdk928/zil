@@ -20,6 +20,8 @@ public class AdminEditEmployeeBindingModel {
 
     private boolean isEnabled;
 
+    private boolean isAdmin;
+
     public AdminEditEmployeeBindingModel() {
     }
 
@@ -94,5 +96,13 @@ public class AdminEditEmployeeBindingModel {
 
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
+    }
+
+    public boolean getIsAdmin() {
+        return this.isAdmin;
+    }
+
+    public void setIsAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }

@@ -62,19 +62,6 @@ public class Master extends BaseController {
 
         int employersInTeam = employersCount / DAYS_IN_WEEK;
         this.busterLogic(employersInTeam, employersCount);
-//        List<Employee> team1List = this.adminService.getProportion(employersInTeam);
-//        List<Employee> team2List = this.adminService.skipAndGetProportion(employersInTeam, employersInTeam);
-//        List<Employee> team3List = this.adminService.skipAndGetProportion(employersInTeam * 2, employersInTeam);
-//        List<Employee> team4List = this.adminService.skipAndGetProportion(employersInTeam * 3, employersInTeam);
-//        List<Employee> team5List = this.adminService.skipAndGetProportion(employersInTeam * 4, employersInTeam);
-//        List<Employee> team6List = this.adminService.skipAndGetProportion(employersInTeam * 5, employersInTeam);
-//        int lastTeam = (int) Math.ceil(employersCount / DAYS_IN_WEEK);
-//        List<Employee> team7List = this.adminService.skipAndGetProportion(lastTeam * 6, employersInTeam);
-//
-//        List<Employee> team1List = this.adminService.getProportion(employersInTeam);
-//        Team team1 = this.teamService.getTeam("team1");
-//        team1.setResidue(this.addATeamProgram(team1List,team1.getResidue()));
-
 
         return this.view(HOME_VIEW);
     }
@@ -82,8 +69,7 @@ public class Master extends BaseController {
     private void busterLogic(int employersInTeam, int employersCount) {
         for (int i = 1; i <= 7; i++) {
             if (i == 7) {
-                int lastTeam = (int) Math.round(employersCount / DAYS_IN_WEEK);
-                double t = Math.ceil(employersCount / DAYS_IN_WEEK);
+                int lastTeam = (int) Math.ceil(employersCount / DAYS_IN_WEEK);
                 int allOther = employersCount - lastTeam;
                 List<Employee> last = this.adminService.skipAndGetProportion(lastTeam * (i - 1), allOther);
                 Team currentTeam = this.teamService.getTeam("team" + i);

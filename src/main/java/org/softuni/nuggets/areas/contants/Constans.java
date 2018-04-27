@@ -21,6 +21,7 @@ public final class Constans {
     //views
     public static final String ADMIN_REGISTER = "/admin/register";
     public static final String HOME_VIEW = "/home";
+    public static final String LOGIN_VIEW = "/user/login";
     public static final String EDIT_VIEW = "/admin/edit-employer";
     public static final String ALL_EMPLOYERS_VIEW = "/admin/all-employers";
     public static final String REMOVE_EMPLOYER = "/admin/remove-employer";

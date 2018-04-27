@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,8 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
 //        auth.inMemoryAuthentication().withUser("admin").password("root123").roles("ADMIN");
 //        auth.inMemoryAuthentication().withUser("dba").password("root123").roles("ADMIN","DBA");
 //    }
+
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
@@ -54,14 +57,14 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .permitAll()
                 .loginProcessingUrl(LOGIN)
                 .usernameParameter("username")
-                .passwordParameter("password")
-                .and()
-                .exceptionHandling()
-                .accessDeniedHandler(new AccessDeniedHandler() {
-                    @Override
-                    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
-                        httpServletResponse.sendRedirect("/test");
-                    }
-                });
+                .passwordParameter("password");
+//                .and()
+//                .exceptionHandling()
+//                .accessDeniedHandler(new AccessDeniedHandler() {
+//                    @Override
+//                    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
+//                        httpServletResponse.sendRedirect("/test");
+//                    }
+//                });
     }
 }

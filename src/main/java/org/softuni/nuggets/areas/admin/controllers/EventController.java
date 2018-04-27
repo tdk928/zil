@@ -6,6 +6,7 @@ import org.softuni.nuggets.areas.user.services.EmployeeService;
 import org.softuni.nuggets.controllers.BaseController;
 import org.softuni.nuggets.entities.Event;
 import org.softuni.nuggets.models.service.EmployeeServiceModel;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -17,6 +18,7 @@ import java.util.List;
 import static org.softuni.nuggets.areas.contants.Constans.*;
 
 @RestController
+@PreAuthorize("hasRole('ADMIN')")
 public class EventController extends BaseController {
 
     private final EventService eventService;
@@ -46,7 +48,7 @@ public class EventController extends BaseController {
         this.eventService.updateEvent(json,employer);
     }
 
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @RequestMapping(value=ALL_EVENTS, method= RequestMethod.GET)
     public List<Event> getEventsInRange(Principal principal,@RequestParam(value = START, required = true) String start,
                                         @RequestParam(value = END, required = true) String end) {

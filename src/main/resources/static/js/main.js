@@ -4,8 +4,7 @@ $(document).ready(() => {
         ev => {
             ev.preventDefault();
             $("#renderCalendar").empty();
-            let content = $("#content").empty();
-            $.get("/login", response => content.html(response))
+            $.get("/login", response => $("#content").html(response))
         });
 
     $("#registerBtn").click(
@@ -43,8 +42,7 @@ $(document).ready(() => {
     $("#zileanBtn").click(
         ev => {
             ev.preventDefault();
-            // $("#body").empty();
-            // var index = $("#content").empty();
+            $("#renderCalendar").empty();
             $.get("/", response => $("#content").html(response))
         }
     );
@@ -56,6 +54,20 @@ $(document).ready(() => {
             $.get("/user/changePassword", response => $("#content").html(response))
         }
     );
+
+    $("#master").click(
+        ev => {
+            ev.preventDefault();
+            $("#renderCalendar").empty();
+            $.get("/admin/master", response => $("#content").html(response))
+        });
+    //
+    // $("#viewCalendar").click(
+    //     ev => {
+    //         ev.preventDefault();
+    //         $("#renderCalendar").empty();
+    //         $.get("/user/calendar", response => $("#content").html(response))
+    //     });
 });
 
 

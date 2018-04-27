@@ -2,6 +2,7 @@ package org.softuni.nuggets.areas.admin.services;
 
 import org.modelmapper.ModelMapper;
 import org.softuni.nuggets.areas.admin.repositories.AdminRepository;
+import org.softuni.nuggets.areas.user.services.EmployeeService;
 import org.softuni.nuggets.entities.*;
 import org.softuni.nuggets.models.binding.AdminEditEmployeeBindingModel;
 import org.softuni.nuggets.models.binding.RegisterBindingModel;
@@ -10,6 +11,7 @@ import org.softuni.nuggets.service.AppointmentService;
 import org.softuni.nuggets.service.HolidayService;
 import org.softuni.nuggets.service.RoleService;
 import org.softuni.nuggets.service.SickService;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -73,6 +75,19 @@ public class AdminServiceImpl implements AdminService {
         employee.setEnabled(true);
     }
 
+    private void makeUserAdmin(Employee employee) {
+        HashSet<Role> role = new HashSet<>();
+        role.add(this.roleService.findById(ROLE_ADMIN_ID));
+        employee.setAuthorities(role);
+    }
+
+    private void makeAdminUser(Employee employee) {
+        HashSet<Role> role = new HashSet<>();
+        role.add(this.roleService.findById(ROLE_USER_ID));
+        employee.setAuthorities(role);
+    }
+
+
     @Override
     public void register(RegisterBindingModel bindingModel) {
         Employee employee = this.modelMapper.map(bindingModel, Employee.class);
@@ -90,6 +105,7 @@ public class AdminServiceImpl implements AdminService {
         employee.setAuthorities(role);
 
         this.configureUserDetailsBug(employee);
+
 
         this.adminRepository.save(employee);
         this.fillSickAndHolidayAndAppointmentTable(employee);
@@ -120,7 +136,14 @@ public class AdminServiceImpl implements AdminService {
         modelMapper.map(model, employeeEntity);
 
         this.configureUserDetailsBug(employeeEntity);
+        if(model.getIsAdmin()) {
+            this.makeUserAdmin(employeeEntity);
+        } else {
+            this.makeAdminUser(employeeEntity);
+        }
+
         this.adminRepository.save(employeeEntity);
+
     }
 
     @Override

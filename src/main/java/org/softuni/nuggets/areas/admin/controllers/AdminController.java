@@ -5,9 +5,11 @@ import org.softuni.nuggets.areas.admin.services.AdminService;
 import org.softuni.nuggets.areas.admin.services.NeededEmployersService;
 import org.softuni.nuggets.controllers.BaseController;
 import org.softuni.nuggets.entities.NeededEmployer;
+import org.softuni.nuggets.entities.Role;
 import org.softuni.nuggets.models.binding.AdminEditEmployeeBindingModel;
 import org.softuni.nuggets.models.binding.RegisterBindingModel;
 import org.softuni.nuggets.models.service.EmployeeServiceModel;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,10 +19,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
+import java.util.Set;
+
 import static org.softuni.nuggets.areas.contants.Constans.*;
 
 
 @Controller
+@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping(value = ADMIN_ROUTE)
 public class AdminController extends BaseController {
     private final NeededEmployersService neededEmployersService;
@@ -64,6 +69,13 @@ public class AdminController extends BaseController {
     public ModelAndView editEmployee(@PathVariable(USERNAME) String username, Model model, ModelMapper modelMapper) {
         EmployeeServiceModel employeeByUsername = this.adminService.getByUsername(username);
 
+        for (Role role : employeeByUsername.getAuthorities()) {
+            if(role.getAuthority().equals("ROLE_ADMIN")) {
+                employeeByUsername.setIsAdmin(true);
+                break;
+            }
+        }
+
         if (!model.containsAttribute(EMPLOYER_INPUT)) {
             AdminEditEmployeeBindingModel bindingModel = modelMapper.map(employeeByUsername, AdminEditEmployeeBindingModel.class);
 
@@ -79,7 +91,6 @@ public class AdminController extends BaseController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(EMPLOYER_INPUT_VALIDATION, bindingResult);
             redirectAttributes.addFlashAttribute(EMPLOYER_INPUT, editEmployeeBindingModel);
-
             return this.redirect(HOME_VIEW);
         } else {
             this.adminService.editEmployer(username, editEmployeeBindingModel);

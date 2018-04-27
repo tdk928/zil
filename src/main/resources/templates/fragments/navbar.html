@@ -17,7 +17,7 @@
                     <a class="nav-link nav-link-white" href="/admin/allEmployers" id="all-employers">All employers</a>
                 </li>
                 <li class="nav-item disabled" sec:authorize="isAnonymous()">
-                    <a class="nav-link nav-link-white" href="login" id="loginBtn">Login</a>
+                    <a class="nav-link nav-link-white" href="/login" id="loginBtn">Login</a>
                 </li>
                 <li class="nav-item disabled" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link nav-link-white" href="/admin/register" id="registerBtn">Register</a>

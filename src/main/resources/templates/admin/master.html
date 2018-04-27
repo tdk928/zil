@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="fragments/head :: head"></th:block>
 <body>
-<div class="container-fluid">
+<div class="container-fluid" id="content">
     <th:block th:replace="fragments/navbar :: navbar"></th:block>
     <div class="container">
         <form th:action="@{/admin/master}" th:method="POST" class="justify-content-center align-items-center">

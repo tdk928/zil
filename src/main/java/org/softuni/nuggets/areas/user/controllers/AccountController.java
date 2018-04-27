@@ -7,6 +7,7 @@ import org.softuni.nuggets.controllers.BaseController;
 import org.softuni.nuggets.models.binding.UserEditEmployeeBindingModel;
 import org.softuni.nuggets.models.service.EmployeeServiceModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +22,7 @@ import static org.softuni.nuggets.areas.contants.Constans.*;
 
 
 @Controller
+@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 public class AccountController extends BaseController {
     private final EmployeeService userService;
 
@@ -30,14 +32,6 @@ public class AccountController extends BaseController {
         this.userService = userService;
     }
 
-    @GetMapping(LOGIN)
-    public ModelAndView login(@RequestParam(required = false, name = ERROR) String error) {
-        if (error != null) {
-            this.view(LOGIN_ROUTE, ERROR, error);
-        }
-
-        return this.view(LOGIN_ROUTE);
-    }
 
     @PostMapping(LOGOUT)
     public ModelAndView logout(@RequestParam(required = false, name = "logout") String logout, RedirectAttributes redirectAttributes) {
@@ -67,6 +61,8 @@ public class AccountController extends BaseController {
         this.userService.editEmployer(employer.getUsername(),model);
         return this.redirect(HOME_VIEW);
     }
+
+
 
 
     @GetMapping(CALENDAR)

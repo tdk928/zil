@@ -36,6 +36,8 @@ public class EmployeeServiceModel {
 
     private Set<Role> authorities;
 
+    private boolean isAdmin;
+
     public EmployeeServiceModel() {
         this.events = new ArrayList<>();
     }
@@ -143,6 +145,14 @@ public class EmployeeServiceModel {
 
     public void setAuthorities(Set<Role> authorities) {
         this.authorities = authorities;
+    }
+
+    public boolean getIsAdmin() {
+        return this.isAdmin;
+    }
+
+    public void setIsAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public void addEvent(Event event) {
