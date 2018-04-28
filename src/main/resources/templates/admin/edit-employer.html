@@ -6,9 +6,27 @@
 <div class="container-fluid" id="content">
     <th:block th:replace="fragments/navbar :: navbar"></th:block>
     <div class="container">
-        <!--<img th:src="${image.getUrl()}" class="img-thumbnail" width="200" height="200">-->
-        <!--<div th:text="${image.getUrl()}"></div>-->
-        <button class="btn btn-secondary" th:onclick="'showImage(\'' + ${image.getId()} + '\');'">Show</button>
+
+        <th:block th:each="image : ${imageData}">
+            <tr class="row justify-content-center align-items-center" th:classappend=" ${image.getId()}">
+                <!--<td class="col-md-3" th:text="${image.getName()}"></td>-->
+                <!--<td class="col-md-3">-->
+                <!--&lt;!&ndash;<button class="btn btn-secondary" th:onclick="'showImage(\'' + ${image.getId()} + '\');'">Show&ndash;&gt;-->
+                <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                <!--&lt;!&ndash;<button class="btn btn-secondary" th:onclick="'hideImage(\'' + ${image.getId()} + '\');'"&ndash;&gt;-->
+                <!--&lt;!&ndash;style="display: none">Hide&ndash;&gt;-->
+                <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                <!--</td>-->
+                <!--<td class="col-md-6" style="display: none">-->
+                <!--<img th:src="${image.getUrl()}" class="img-thumbnail" width="200" height="200">-->
+                <!--</td>-->
+                <div class="justify-content-center align-items-center">
+                    <img th:src="${image.getUrl()}" class="img-thumbnail" width="200" height="200" th:class="mt-5">
+                </div>
+            </tr>
+        </th:block>
+
+
         <form th:action="${employerInput.getUsername()}" th:method="POST"
               class="justify-content-center align-items-center" th:object="${employerInput}">
             <div class="row">
@@ -121,6 +139,11 @@
         $($('.' + imageId).children()[2]).show();
     }
 
+    function hideImage(imageId) {
+        $($('.' + imageId).children()[2]).hide();
+        $($($('.' + imageId).children()[1]).children()[1]).hide();
+        $($($('.' + imageId).children()[1]).children()[0]).show();
+    }
 </script>
 </body>
 </html>

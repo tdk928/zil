@@ -131,17 +131,19 @@ public class AdminController extends BaseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        List<Image> list = new ArrayList<>();
+        List<Image> no = new ArrayList<>();
         for (Image image : images) {
             if(image.getName().equals(username)) {
-                currentEmployeeImage = image;
+                list.add(image);
                 break;
+            } else if(image.getName().equals("no.png")){
+                no.add(image);
             }
         }
-        String imgUrl = null;
-        if(currentEmployeeImage == null) {
 
-        } else {
-            imgUrl = currentEmployeeImage.getUrl();
+        if(list.size() == 0) {
+            list.add(no.get(0));
         }
 
         for (Role role : employeeByUsername.getAuthorities()) {
@@ -155,10 +157,10 @@ public class AdminController extends BaseController {
             AdminEditEmployeeBindingModel bindingModel = modelMapper.map(employeeByUsername, AdminEditEmployeeBindingModel.class);
 
             model.addAttribute(EMPLOYER_INPUT, bindingModel);
-            model.addAttribute("image", currentEmployeeImage);
+            model.addAttribute("imageData", list);
         }
 
-        return this.view(EDIT_VIEW).addObject("image",currentEmployeeImage);
+        return this.view(EDIT_VIEW).addObject("imageData",list);
     }
 
     @PostMapping(EDIT_ROUTE)
