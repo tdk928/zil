@@ -9,7 +9,7 @@ import org.springframework.data.repository.Repository;
 
 import java.util.List;
 
-public interface TestRepository extends Repository<Employee,String> {
+public interface PaginationRepository extends Repository<Employee,String> {
     Page<Employee> findByDeletedOnIsNull(Pageable pageable);
 
 }

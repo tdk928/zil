@@ -1,6 +1,6 @@
 package org.softuni.nuggets.areas.admin.controllers;
 
-import org.softuni.nuggets.areas.admin.services.TestService;
+import org.softuni.nuggets.areas.admin.services.PaginationService;
 import org.softuni.nuggets.controllers.BaseController;
 import org.softuni.nuggets.entities.Employee;
 import org.springframework.data.domain.Page;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import static org.softuni.nuggets.areas.contants.Constans.ALL_EMPLOYERS;
+import static org.softuni.nuggets.contants.Constans.ALL_EMPLOYERS;
 
 @Controller
 @PreAuthorize("hasRole('ADMIN')")
@@ -18,9 +18,9 @@ import static org.softuni.nuggets.areas.contants.Constans.ALL_EMPLOYERS;
 public class EmployerController extends BaseController{
     private static final int EMPLOYERS_IN_PAGE = 10;
     private static final int MATH_CEIL = 1;
-    private TestService testService;
+    private PaginationService testService;
 
-    public EmployerController(TestService testService) {
+    public EmployerController(PaginationService testService) {
         this.testService = testService;
     }
 

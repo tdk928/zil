@@ -2,7 +2,7 @@ package org.softuni.nuggets.controllers;
 
 import org.springframework.web.servlet.ModelAndView;
 
-import static org.softuni.nuggets.areas.contants.Constans.REDIRECT;
+import static org.softuni.nuggets.contants.Constans.REDIRECT;
 
 public abstract class BaseController {
     protected ModelAndView view(String view) {

@@ -12,9 +12,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import static org.softuni.nuggets.areas.contants.Constans.EMPLOYERS_TABLE;
-import static org.softuni.nuggets.areas.contants.Constans.UUID;
-import static org.softuni.nuggets.areas.contants.Constans.UUID_GENERATOR;
+import static org.softuni.nuggets.contants.Constans.EMPLOYERS_TABLE;
+import static org.softuni.nuggets.contants.Constans.UUID;
+import static org.softuni.nuggets.contants.Constans.UUID_GENERATOR;
 
 @Entity
 @Table(name = EMPLOYERS_TABLE)

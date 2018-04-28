@@ -2,7 +2,7 @@ package org.softuni.nuggets.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import static org.softuni.nuggets.areas.contants.Constans.APPOINTMENTS_TABLE;
+import static org.softuni.nuggets.contants.Constans.APPOINTMENTS_TABLE;
 
 @Entity
 @Table(name = APPOINTMENTS_TABLE)

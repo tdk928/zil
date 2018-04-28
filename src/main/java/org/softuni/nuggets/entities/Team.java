@@ -2,7 +2,7 @@ package org.softuni.nuggets.entities;
 
 import javax.persistence.*;
 
-import static org.softuni.nuggets.areas.contants.Constans.TEAMS;
+import static org.softuni.nuggets.contants.Constans.TEAMS;
 
 @Entity
 @Table(name = TEAMS)

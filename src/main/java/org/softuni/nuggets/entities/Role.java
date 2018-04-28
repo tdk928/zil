@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
-import static org.softuni.nuggets.areas.contants.Constans.ROLE_TABLE;
+import static org.softuni.nuggets.contants.Constans.ROLE_TABLE;
 
 @Entity
 @Table(name = ROLE_TABLE)

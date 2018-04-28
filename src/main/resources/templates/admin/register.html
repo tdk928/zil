@@ -21,7 +21,8 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="text" name="username" class="form-control" id="username"/>
+                            <input type="text" name="username" class="form-control" id="username"
+                                   th:value="${employerInput.getUsername()}"/>
                         </div>
                     </div>
                 </div>
@@ -34,7 +35,8 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="password" name="password" class="form-control" id="password"/>
+                            <input type="password" name="password" class="form-control" id="password"
+                                   th:value="${employerInput.getPassword()}"/>
                         </div>
                     </div>
                 </div>
@@ -47,7 +49,8 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="password" name="confirmPassword" class="form-control" id="confirmPassword"/>
+                            <input type="password" name="confirmPassword" class="form-control" id="confirmPassword"
+                                   th:value="${employerInput.getConfirmPassword()}"/>
                         </div>
                     </div>
                 </div>
@@ -61,7 +64,7 @@
                     <div class="form-group">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <input type="text" class="form-control form-control-lg rounded-0" name="firstName"
-                                   id="firstName"/>
+                                   id="firstName" th:value="${employerInput.getFirstName()}"/>
                         </div>
                     </div>
                 </div>
@@ -75,12 +78,15 @@
                     <div class="form-group">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <input type="text" class="form-control form-control-lg rounded-0" name="lastName"
-                                   id="lastName"/>
+                                   id="lastName" th:value="${employerInput.getLastName()}"/>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!--<th:block th:classappend="${#fields.hasErrors('username')} ? 'has-danger'">-->
+                <!--grymnahhhhhhhh-->
+            <!--</th:block>-->
             <div class="row h-100 justify-content-center align-items-center mt-2">
                 <div class="col-md-2 field-label-responsive">
                     <label for="salary">Salary</label>
@@ -88,10 +94,15 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="number" class="form-control" id="salary" name="salary"/>
+                            <input type="number" class="form-control" id="salary" name="salary"
+                                   th:value="${employerInput.getSalary() == 0}  ?  '' : ${employerInput.getSalary()}"/>
                         </div>
                     </div>
                 </div>
+                <!--<th:block th:each="error : ${#fields.errors('salary')}">-->
+                    <!--<small class="text-danger"-->
+                           <!--th:text="${error}"></small>-->
+                <!--</th:block>-->
             </div>
             <div class="row h-100 justify-content-center align-items-center mt-2">
                 <button type="submit" class="btn btn-success btn-lg float-right" id="btnRegister">

@@ -2,7 +2,7 @@ package org.softuni.nuggets.entities;
 
 import javax.persistence.*;
 
-import static org.softuni.nuggets.areas.contants.Constans.SICK_TABLE;
+import static org.softuni.nuggets.contants.Constans.SICK_TABLE;
 
 @Entity
 @Table(name = SICK_TABLE)

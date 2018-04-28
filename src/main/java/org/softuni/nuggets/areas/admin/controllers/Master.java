@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.softuni.nuggets.areas.contants.Constans.HOME_VIEW;
+import static org.softuni.nuggets.contants.Constans.HOME_VIEW;
 
 @Controller
 public class Master extends BaseController {

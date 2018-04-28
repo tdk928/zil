@@ -4,14 +4,17 @@ import org.softuni.nuggets.entities.Employee;
 import org.softuni.nuggets.models.binding.AdminEditEmployeeBindingModel;
 import org.softuni.nuggets.models.binding.RegisterBindingModel;
 import org.softuni.nuggets.models.service.EmployeeServiceModel;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 public interface AdminService {
     List<Employee> getAllEmployers();
 
-    void register(RegisterBindingModel bindingModel);
+    Employee register(RegisterBindingModel bindingModel);
+
+//    Employee register(Employee employee);
+
+    Employee register(Employee employee);
 
     EmployeeServiceModel getByUsername(String egn);
 

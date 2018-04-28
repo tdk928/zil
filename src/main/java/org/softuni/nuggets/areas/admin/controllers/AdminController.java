@@ -6,6 +6,7 @@ import org.softuni.nuggets.areas.admin.services.NeededEmployersService;
 import org.softuni.nuggets.controllers.BaseController;
 import org.softuni.nuggets.entities.NeededEmployer;
 import org.softuni.nuggets.entities.Role;
+
 import org.softuni.nuggets.models.binding.AdminEditEmployeeBindingModel;
 import org.softuni.nuggets.models.binding.RegisterBindingModel;
 import org.softuni.nuggets.models.service.EmployeeServiceModel;
@@ -19,9 +20,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
-import java.util.Set;
+import java.security.Principal;
 
-import static org.softuni.nuggets.areas.contants.Constans.*;
+import static org.softuni.nuggets.contants.Constans.*;
 
 
 @Controller
@@ -37,6 +38,27 @@ public class AdminController extends BaseController {
         this.adminService = adminService;
     }
 
+    @GetMapping(EVENT)
+    public ModelAndView showEmployerEvent(@PathVariable(USERNAME) String username, Model model, ModelMapper modelMapper) {
+//        EmployeeServiceModel employeeByUsername = this.adminService.getByUsername(username);
+//
+//        for (Role role : employeeByUsername.getAuthorities()) {
+//            if(role.getAuthority().equals("ROLE_ADMIN")) {
+//                employeeByUsername.setIsAdmin(true);
+//                break;
+//            }
+//        }
+//
+//        if (!model.containsAttribute(EMPLOYER_INPUT)) {
+//            AdminEditEmployeeBindingModel bindingModel = modelMapper.map(employeeByUsername, AdminEditEmployeeBindingModel.class);
+//
+//            model.addAttribute(EMPLOYER_INPUT, bindingModel);
+//        }
+//
+//        return this.view(EDIT_VIEW);
+        return null;
+    }
+
     @GetMapping(REGISTER_ROUTE)
     public ModelAndView register(Model model) {
         if (!model.containsAttribute(EMPLOYER_INPUT)) {
@@ -47,8 +69,11 @@ public class AdminController extends BaseController {
     }
 
     @PostMapping(REGISTER_ROUTE)
-    public ModelAndView registerConfirm(@Valid @ModelAttribute RegisterBindingModel bindingModel, BindingResult bindingResult) throws Exception {
+    public ModelAndView registerConfirm(@Valid @ModelAttribute(name = EMPLOYER_INPUT) RegisterBindingModel bindingModel,
+                                        BindingResult bindingResult,RedirectAttributes redirectAttributes) throws Exception {
         if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute(EMPLOYER_INPUT_VALIDATION, bindingResult);
+            redirectAttributes.addFlashAttribute(EMPLOYER_INPUT, bindingModel);
             return this.redirect(ADMIN_REGISTER);
         } else {
             if (bindingModel.getPassword().equals(bindingModel.getConfirmPassword())) {
@@ -110,8 +135,10 @@ public class AdminController extends BaseController {
     }
 
     @PostMapping(DELETE_ROUTE)
-    public ModelAndView removeConfirm(@PathVariable String username) throws Exception {
-
+    public ModelAndView removeConfirm(@PathVariable String username, Principal principal) throws Exception {
+        if(principal.getName().equals(username)) {
+            throw new Exception();
+        }
         NeededEmployer neededUtilEntity = this.neededEmployersService.getNeededUtilEntity();
         if (!neededUtilEntity.decrement()) {
             throw new Exception();

@@ -2,7 +2,7 @@ package org.softuni.nuggets.entities;
 
 import javax.persistence.*;
 
-import static org.softuni.nuggets.areas.contants.Constans.NEEDED_EMPLOYERS;
+import static org.softuni.nuggets.contants.Constans.NEEDED_EMPLOYERS;
 
 @Entity
 @Table(name = NEEDED_EMPLOYERS)

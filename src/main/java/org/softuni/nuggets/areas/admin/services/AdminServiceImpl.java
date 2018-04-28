@@ -2,7 +2,6 @@ package org.softuni.nuggets.areas.admin.services;
 
 import org.modelmapper.ModelMapper;
 import org.softuni.nuggets.areas.admin.repositories.AdminRepository;
-import org.softuni.nuggets.areas.user.services.EmployeeService;
 import org.softuni.nuggets.entities.*;
 import org.softuni.nuggets.models.binding.AdminEditEmployeeBindingModel;
 import org.softuni.nuggets.models.binding.RegisterBindingModel;
@@ -11,7 +10,6 @@ import org.softuni.nuggets.service.AppointmentService;
 import org.softuni.nuggets.service.HolidayService;
 import org.softuni.nuggets.service.RoleService;
 import org.softuni.nuggets.service.SickService;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +18,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.softuni.nuggets.areas.contants.Constans.ROLE_ADMIN_ID;
-import static org.softuni.nuggets.areas.contants.Constans.ROLE_USER_ID;
+import static org.softuni.nuggets.contants.Constans.ROLE_ADMIN_ID;
+import static org.softuni.nuggets.contants.Constans.ROLE_USER_ID;
 
 @Service
 @Transactional
@@ -89,7 +87,7 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public void register(RegisterBindingModel bindingModel) {
+    public Employee register(RegisterBindingModel bindingModel) {
         Employee employee = this.modelMapper.map(bindingModel, Employee.class);
 
         employee.setPassword(this.encoder.encode(bindingModel.getPassword()));
@@ -106,9 +104,16 @@ public class AdminServiceImpl implements AdminService {
 
         this.configureUserDetailsBug(employee);
 
-
-        this.adminRepository.save(employee);
         this.fillSickAndHolidayAndAppointmentTable(employee);
+        this.adminRepository.save(employee);
+
+        return employee;
+    }
+
+    //this is for unit testing
+    @Override
+    public Employee register(Employee employee) {
+       return this.adminRepository.save(employee);
     }
 
     @Override

@@ -1,23 +1,19 @@
 package org.softuni.nuggets.areas.admin.services;
 
-import org.softuni.nuggets.areas.admin.repositories.TestRepository;
+import org.softuni.nuggets.areas.admin.repositories.PaginationRepository;
 import org.softuni.nuggets.entities.Employee;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class TestServiceImpl implements TestService {
-    private TestRepository testRepository;
+public class PaginationServiceImpl implements PaginationService {
+    private PaginationRepository testRepository;
 
-    public TestServiceImpl(TestRepository testRepository) {
+    public PaginationServiceImpl(PaginationRepository testRepository) {
         this.testRepository = testRepository;
     }
 

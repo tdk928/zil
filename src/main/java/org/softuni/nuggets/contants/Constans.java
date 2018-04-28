@@ -1,10 +1,11 @@
-package org.softuni.nuggets.areas.contants;
+package org.softuni.nuggets.contants;
 
 public final class Constans {
     //routes
     public static final String ADMIN_ROUTE = "{admin}/";
     public static final String REGISTER_ROUTE = "/register";
     public static final String EDIT_ROUTE = "/edit/{username}";
+    public static final String EVENT = "/event/{username}";
     public static final String DELETE_ROUTE = "/delete/{username}";
     public static final String ADD_EVENT = "/addevent";
     public static final String REMOVE_EVENT = "/removeevent";

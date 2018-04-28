@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-import static org.softuni.nuggets.areas.contants.Constans.USERNAME_EXCEPTION;
+import static org.softuni.nuggets.contants.Constans.USERNAME_EXCEPTION;
 
 @Service
 @Transactional

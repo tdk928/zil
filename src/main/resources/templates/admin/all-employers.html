@@ -19,6 +19,7 @@
             <th class="col-md-3" scope="col">First Name</th>
             <th class="col-md-2" scope="col">Edit</th>
             <th class="col-md-2" scope="col">Delete</th>
+            <th class="col-md-2" scope="col">Show program</th>
         </tr>
         </thead>
         <tbody>
@@ -39,6 +40,7 @@
 
                 <td class="col-md-2"><a class="btn btn-secondary" th:href="@{/admin/edit/{egn}(egn=${emp.getUsername()})}">Edit</a></td>
                 <td class="col-md-2"><a class="btn btn-danger" th:href="@{/admin/delete/{egn}(egn=${emp.getUsername()})}">Delete</a></td>
+                <!--<td class="col-md-2"><a class="btn btn-danger" th:href="@{/admin/events/{egn}(egn=${emp.getUsername()})}">Delete</a></td>-->
 
             </tr>
         </th:block>

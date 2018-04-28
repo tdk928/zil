@@ -1,7 +1,6 @@
 package org.softuni.nuggets.controllers;
 
 import org.softuni.nuggets.areas.user.services.EmployeeService;
-import org.softuni.nuggets.models.service.EmployeeServiceModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 
-import static org.softuni.nuggets.areas.contants.Constans.*;
+import static org.softuni.nuggets.contants.Constans.*;
 
 @Controller
 public class HomeController extends BaseController{

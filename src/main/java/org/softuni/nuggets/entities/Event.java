@@ -4,7 +4,7 @@ package org.softuni.nuggets.entities;
 import javax.persistence.*;
 import java.util.Date;
 
-import static org.softuni.nuggets.areas.contants.Constans.EVENT_TABLE;
+import static org.softuni.nuggets.contants.Constans.EVENT_TABLE;
 
 @Entity
 @Table(name = EVENT_TABLE)

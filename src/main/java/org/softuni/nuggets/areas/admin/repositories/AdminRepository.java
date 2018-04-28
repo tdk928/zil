@@ -23,4 +23,11 @@ public interface AdminRepository extends JpaRepository<Employee,String>{
     @Query(value = "SELECT * FROM Employers AS e WHERE e.deleted_on IS NULL LIMIT :skip,:take",nativeQuery = true)
     List<Employee> skipAndGetProportion(@Param("skip")int skip, @Param("take")int take);
 
+//    @Query(value = "SELECT * FROM Employers AS e" +
+//            "JOIN Appointment AS a" +
+//            "ON e.id = a.employees_id " +
+//            "WHERE e.deleted_on IS NULL " +
+//            "ORDER BY a.`start` " +
+//            "LIMIT :skip,:take",nativeQuery = true)
+//    List<Employee> skipAndGetProportion(@Param("skip")int skip, @Param("take")int take);
 }

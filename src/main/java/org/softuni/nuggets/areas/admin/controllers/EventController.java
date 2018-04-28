@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static org.softuni.nuggets.areas.contants.Constans.*;
+import static org.softuni.nuggets.contants.Constans.*;
 
 @RestController
 @PreAuthorize("hasRole('ADMIN')")
@@ -52,23 +52,6 @@ public class EventController extends BaseController {
     @RequestMapping(value=ALL_EVENTS, method= RequestMethod.GET)
     public List<Event> getEventsInRange(Principal principal,@RequestParam(value = START, required = true) String start,
                                         @RequestParam(value = END, required = true) String end) {
-        Date startDate = null;
-        Date endDate = null;
-        SimpleDateFormat inputDateFormat=new SimpleDateFormat(DATE_PATTERN);
-
-        try {
-            startDate = inputDateFormat.parse(start);
-        } catch (ParseException e) {
-            throw new BadTimeFormatException(BAD_START_DATE + start);
-        }
-
-        try {
-            endDate = inputDateFormat.parse(end);
-        } catch (ParseException e) {
-            throw new BadTimeFormatException(BAD_END_DATE + end);
-        }
-
-        EmployeeServiceModel employer = this.userService.getByUsernameAndDeletedOnIsNotNull(principal.getName());
-        return employer.getEvents();
+        return this.eventService.getEventsInRange(principal,start,end);
     }
 }
