@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="fragments/head"></th:block>
+</head>
+<body>
+
+
+<div class="container-fluid" id="content">
+    <th:block th:replace="fragments/navbar"></th:block>
+    <h1 class="text-center mt-5 mb-5">Current employer</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr class="row">
+            <th class="col-md-2" scope="col">#</th>
+            <th class="col-md-3" scope="col">EGN</th>
+            <th class="col-md-3" scope="col">First Name</th>
+            <th class="col-md-2" scope="col">Edit</th>
+            <th class="col-md-2" scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+
+            <tr class="row">
+                <th class="col-md-2" scope="row">1</th>
+                <td class="col-md-3" scope="row" th:text="${employee.getUsername()}"></td>
+                <td class="col-md-3" scope="row" th:text="${employee.getFirstName()}"></td>
+                <td class="col-md-2"><a class="btn btn-secondary" th:href="@{/admin/edit/{egn}(egn=${employee.getUsername()})}">Edit</a></td>
+                <td class="col-md-2"><a class="btn btn-danger" th:href="@{/admin/delete/{egn}(egn=${employee.getUsername()})}">Delete</a></td>
+                <!--<td class="col-md-2"><a class="btn btn-danger" th:href="@{/admin/events/{egn}(egn=${emp.getUsername()})}">Delete</a></td>-->
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

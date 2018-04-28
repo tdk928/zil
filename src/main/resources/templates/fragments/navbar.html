@@ -23,7 +23,8 @@
                     <a class="nav-link nav-link-white" href="/admin/register" id="registerBtn">Register</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item disabled">
-                    <a class="nav-link nav-link-white" href="/user/changePassword" id="changePassword">Change Password</a>
+                    <a class="nav-link nav-link-white" href="/user/changePassword" id="changePassword">Change
+                        Password</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item disabled">
                     <a class="nav-link nav-link-white" href="/user/calendar" id="viewCalendar">Calendar</a>
@@ -31,6 +32,23 @@
                 <li class="nav-item disabled" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link nav-link-white" href="/admin/master" id="master">Master</a>
                 </li>
+
+                <li class="nav-item disabled" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link nav-link-white" href="/admin/search" id="search">Search</a>
+                </li>
+
+                <li class="nav-item disabled">
+                    <a class="nav-link nav-link-white" href="/contact" id="contact">Contact us</a>
+                </li>
+
+                <li class="nav-item disabled" sec:authorize="isAuthenticated()">
+                    <a class="nav-link nav-link-white" href="/images" id="images">Upload Profile Picture</a>
+                </li>
+
+                <!--<li class="nav-item disabled">-->
+                    <!--<a class="nav-link nav-link-black" href="/upload/images">Upload Profile Picture</a>-->
+                <!--</li>-->
+
                 <li sec:authorize="isAuthenticated()" class="nav-item disabled">
                     <form th:action="@{/logout}" th:method="POST">
                         <a class="nav-link nav-link-white" href="/logout" id="logoutBtn">Logout</a>

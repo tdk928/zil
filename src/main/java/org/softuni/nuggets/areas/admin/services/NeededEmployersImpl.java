@@ -21,6 +21,11 @@ public class NeededEmployersImpl implements NeededEmployersService {
     }
 
     @Override
+    public int getCurrentlyEmployersInCompany() {
+        return this.neededEmployersRepository.findAll().get(0).getCurrentEmployers();
+    }
+
+    @Override
     public boolean save(NeededEmployer neededEmployer) {
         this.neededEmployersRepository.save(neededEmployer);
         return true;

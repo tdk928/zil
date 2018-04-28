@@ -3,12 +3,15 @@ package org.softuni.nuggets.areas.admin.controllers;
 import org.modelmapper.ModelMapper;
 import org.softuni.nuggets.areas.admin.services.AdminService;
 import org.softuni.nuggets.areas.admin.services.NeededEmployersService;
+import org.softuni.nuggets.cloud.cloud.CloudImageExtractor;
 import org.softuni.nuggets.controllers.BaseController;
+import org.softuni.nuggets.entities.Image;
 import org.softuni.nuggets.entities.NeededEmployer;
 import org.softuni.nuggets.entities.Role;
 
 import org.softuni.nuggets.models.binding.AdminEditEmployeeBindingModel;
 import org.softuni.nuggets.models.binding.RegisterBindingModel;
+import org.softuni.nuggets.models.binding.SearchBindingModel;
 import org.softuni.nuggets.models.service.EmployeeServiceModel;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -20,7 +23,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.softuni.nuggets.contants.Constans.*;
 
@@ -31,33 +37,35 @@ import static org.softuni.nuggets.contants.Constans.*;
 public class AdminController extends BaseController {
     private final NeededEmployersService neededEmployersService;
     private final AdminService adminService;
+    private final CloudImageExtractor cloudImageExtractor;
 
-    public AdminController(NeededEmployersService neededEmployersService, AdminService adminService) {
+    public AdminController(NeededEmployersService neededEmployersService, AdminService adminService, CloudImageExtractor cloudImageExtractor) {
         this.neededEmployersService = neededEmployersService;
 
         this.adminService = adminService;
+        this.cloudImageExtractor = cloudImageExtractor;
     }
 
-    @GetMapping(EVENT)
-    public ModelAndView showEmployerEvent(@PathVariable(USERNAME) String username, Model model, ModelMapper modelMapper) {
-//        EmployeeServiceModel employeeByUsername = this.adminService.getByUsername(username);
-//
-//        for (Role role : employeeByUsername.getAuthorities()) {
-//            if(role.getAuthority().equals("ROLE_ADMIN")) {
-//                employeeByUsername.setIsAdmin(true);
-//                break;
-//            }
-//        }
-//
-//        if (!model.containsAttribute(EMPLOYER_INPUT)) {
-//            AdminEditEmployeeBindingModel bindingModel = modelMapper.map(employeeByUsername, AdminEditEmployeeBindingModel.class);
-//
-//            model.addAttribute(EMPLOYER_INPUT, bindingModel);
-//        }
-//
-//        return this.view(EDIT_VIEW);
-        return null;
-    }
+//    @GetMapping(EVENT)
+//    public ModelAndView showEmployerEvent(@PathVariable(USERNAME) String username, Model model, ModelMapper modelMapper) {
+////        EmployeeServiceModel employeeByUsername = this.adminService.getByUsername(username);
+////
+////        for (Role role : employeeByUsername.getAuthorities()) {
+////            if(role.getAuthority().equals("ROLE_ADMIN")) {
+////                employeeByUsername.setIsAdmin(true);
+////                break;
+////            }
+////        }
+////
+////        if (!model.containsAttribute(EMPLOYER_INPUT)) {
+////            AdminEditEmployeeBindingModel bindingModel = modelMapper.map(employeeByUsername, AdminEditEmployeeBindingModel.class);
+////
+////            model.addAttribute(EMPLOYER_INPUT, bindingModel);
+////        }
+////
+////        return this.view(EDIT_VIEW);
+//        return null;
+//    }
 
     @GetMapping(REGISTER_ROUTE)
     public ModelAndView register(Model model) {
@@ -66,6 +74,28 @@ public class AdminController extends BaseController {
         }
 
         return this.view(ADMIN_REGISTER);
+    }
+
+    @GetMapping(SEARCH)
+    public ModelAndView search() {
+        return this.view("/admin/search");
+    }
+
+    @PostMapping(SEARCH)
+    public ModelAndView searchConfirm(SearchBindingModel searchBindingModel)  {
+        EmployeeServiceModel employee = null;
+        try {
+            employee = this.adminService.getByUsername(searchBindingModel.getUsername());
+        } catch (Exception e) {
+            return this.redirect("/admin/search");
+        }
+
+        return this.view(DETAILS).addObject("employee",employee);
+    }
+
+    @GetMapping("/details")
+    public ModelAndView details() {
+        return this.view(INDEX_VIEW);
     }
 
     @PostMapping(REGISTER_ROUTE)
@@ -80,7 +110,7 @@ public class AdminController extends BaseController {
                 NeededEmployer neededUtilEntity = this.neededEmployersService.getNeededUtilEntity();
 
                 if (!neededUtilEntity.increment()) {
-                    throw new Exception();
+                    throw new Exception("We have max employers at this moment.");
                 }
 
                 this.adminService.register(bindingModel);
@@ -91,8 +121,28 @@ public class AdminController extends BaseController {
     }
 
     @GetMapping(EDIT_ROUTE)
-    public ModelAndView editEmployee(@PathVariable(USERNAME) String username, Model model, ModelMapper modelMapper) {
+    public ModelAndView editEmployee(@PathVariable(USERNAME) String username, Model model, ModelMapper modelMapper) throws IOException {
         EmployeeServiceModel employeeByUsername = this.adminService.getByUsername(username);
+
+        List<Image> images = new ArrayList<Image>();
+        Image currentEmployeeImage = null;
+        try {
+            images = this.cloudImageExtractor.getAllImages();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (Image image : images) {
+            if(image.getName().equals(username)) {
+                currentEmployeeImage = image;
+                break;
+            }
+        }
+        String imgUrl = null;
+        if(currentEmployeeImage == null) {
+
+        } else {
+            imgUrl = currentEmployeeImage.getUrl();
+        }
 
         for (Role role : employeeByUsername.getAuthorities()) {
             if(role.getAuthority().equals("ROLE_ADMIN")) {
@@ -105,9 +155,10 @@ public class AdminController extends BaseController {
             AdminEditEmployeeBindingModel bindingModel = modelMapper.map(employeeByUsername, AdminEditEmployeeBindingModel.class);
 
             model.addAttribute(EMPLOYER_INPUT, bindingModel);
+            model.addAttribute("image", currentEmployeeImage);
         }
 
-        return this.view(EDIT_VIEW);
+        return this.view(EDIT_VIEW).addObject("image",currentEmployeeImage);
     }
 
     @PostMapping(EDIT_ROUTE)
@@ -137,11 +188,11 @@ public class AdminController extends BaseController {
     @PostMapping(DELETE_ROUTE)
     public ModelAndView removeConfirm(@PathVariable String username, Principal principal) throws Exception {
         if(principal.getName().equals(username)) {
-            throw new Exception();
+            throw new Exception("You cant delete yourself.");
         }
         NeededEmployer neededUtilEntity = this.neededEmployersService.getNeededUtilEntity();
         if (!neededUtilEntity.decrement()) {
-            throw new Exception();
+            throw new Exception("Employers in company cant be negative number.");
         }
         this.adminService.removeEmployer(username);
         this.neededEmployersService.save(neededUtilEntity);

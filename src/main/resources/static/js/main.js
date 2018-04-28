@@ -61,13 +61,34 @@ $(document).ready(() => {
             $("#renderCalendar").empty();
             $.get("/admin/master", response => $("#content").html(response))
         });
-    //
-    // $("#viewCalendar").click(
-    //     ev => {
-    //         ev.preventDefault();
-    //         $("#renderCalendar").empty();
-    //         $.get("/user/calendar", response => $("#content").html(response))
-    //     });
+
+    $("#search").click(
+        ev => {
+            ev.preventDefault();
+            $("#renderCalendar").empty();
+            $.get("/admin/search", response => $("#content").html(response))
+        });
+
+    $("#search").click(
+        ev => {
+            ev.preventDefault();
+            $("#renderCalendar").empty();
+            $.post("/admin/search", response => $("#content").html(response))
+        });
+
+    $("#contact").click(
+        ev => {
+            ev.preventDefault();
+            $("#renderCalendar").empty();
+            $.get("/contact", response => $("#content").html(response))
+        });
+
+    $("#images").click(
+        ev => {
+            ev.preventDefault();
+            $("#renderCalendar").empty();
+            $.get("/images", response => $("#content").html(response))
+        });
 });
 
 

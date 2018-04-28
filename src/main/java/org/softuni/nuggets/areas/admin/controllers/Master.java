@@ -45,7 +45,8 @@ public class Master extends BaseController {
 
     @GetMapping("/admin/master")
     public ModelAndView initializeWorkProgram() {
-        return this.view("/admin/master");
+        int currentlyEmployersInCompany = this.neededEmployersService.getCurrentlyEmployersInCompany();
+        return this.view("/admin/master").addObject("employers",currentlyEmployersInCompany);
     }
 
     @PostMapping("/admin/master")

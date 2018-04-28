@@ -18,6 +18,8 @@ public final class Constans {
     public static final String CALENDAR = "/user/calendar";
     public static final String INDEX = "/";
     public static final String HOME = "/home";
+    public static final String SEARCH = "/search";
+    public static final String CONTACT = "/contact";
 
     //views
     public static final String ADMIN_REGISTER = "/admin/register";
@@ -30,6 +32,8 @@ public final class Constans {
     public static final String CHANGE_PASSWORD_VIEW = "/user/change-password";
     public static final String CALENDAR_VIEW = "/user/jsoncalendar";
     public static final String INDEX_VIEW = "/index";
+    public static final String DETAILS = "/admin/details";
+    public static final String CONTACT_VIEW = "/contact";
 
     //other
     public static final String USERNAME = "username";

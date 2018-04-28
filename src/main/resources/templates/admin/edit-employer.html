@@ -6,6 +6,9 @@
 <div class="container-fluid" id="content">
     <th:block th:replace="fragments/navbar :: navbar"></th:block>
     <div class="container">
+        <!--<img th:src="${image.getUrl()}" class="img-thumbnail" width="200" height="200">-->
+        <!--<div th:text="${image.getUrl()}"></div>-->
+        <button class="btn btn-secondary" th:onclick="'showImage(\'' + ${image.getId()} + '\');'">Show</button>
         <form th:action="${employerInput.getUsername()}" th:method="POST"
               class="justify-content-center align-items-center" th:object="${employerInput}">
             <div class="row">
@@ -111,5 +114,13 @@
         </form>
     </div>
 </div>
+<script>
+    function showImage(imageId) {
+        $($($('.' + imageId).children()[1]).children()[0]).hide();
+        $($($('.' + imageId).children()[1]).children()[1]).show();
+        $($('.' + imageId).children()[2]).show();
+    }
+
+</script>
 </body>
 </html>

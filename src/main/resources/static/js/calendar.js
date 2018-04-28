@@ -89,8 +89,6 @@ $(function () {
                     end: eventEnd,
                     description: moddescription.value
                 };
-                //		alert(eventData.title.value + " " + eventData.start.value + " " + eventData.end.value)
-                //		$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
             }
 
             $('#calendar').fullCalendar('unselect');
@@ -201,8 +199,6 @@ $(function () {
                 error: function () {
                     alert('there was an error while fetching events!');
                 },
-                //color: 'blue',   // a non-ajax option
-                //textColor: 'white' // a non-ajax option
             },
             selectable: true,
             selectHelper: true,

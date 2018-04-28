@@ -9,13 +9,6 @@
     <th:block th:replace="fragments/navbar"></th:block>
 
     <img src="/img/zil.jpg" alt="Responsive image" style="width: 100%">
-
-    <div sec:authorize="isAuthenticated()">
-        <h1>YOU WILL SEE THIS IF YOU ARE LOGGED IN</h1>
-    </div>
-    <div sec:authorize="hasRole('ADMIN')">
-        <h1>YOU WILL SEE THIS IF YOU ARE ADMIN</h1>
-    </div>
 </div>
 </body>
 </html>

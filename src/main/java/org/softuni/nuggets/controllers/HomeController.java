@@ -28,6 +28,11 @@ public class HomeController extends BaseController{
        return this.view(HOME_VIEW);
     }
 
+    @GetMapping(CONTACT)
+    public ModelAndView contact() {
+        return this.view(CONTACT_VIEW);
+    }
+
     @GetMapping(LOGIN)
 //    @PreAuthorize("isAnonymous()")
     public ModelAndView login(@RequestParam(required = false, name = ERROR) String error, Principal principal) {
